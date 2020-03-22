@@ -21,3 +21,12 @@ processedImage.Save(destFile, ImageFormat.Jpeg);
 會變慢的理由是否是因為 , 這兩個就算額外開一個 Thread 給它們執行 ,
 也只是讓原本起手式的 Thread 在那邊等待而已.
 反而只是造成 Content Switch 的白白損耗 ...???
+
+==============
+
+[更新錯誤]
+
+重新計算改善幅度
+(4284-3390)/4284 = 0.20868347338
+
+使用Task.Run 沒有卡住程式 , 導致計算結果失準
