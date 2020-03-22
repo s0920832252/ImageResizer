@@ -30,3 +30,12 @@ processedImage.Save(destFile, ImageFormat.Jpeg);
 (4284-3390)/4284 = 0.20868347338
 
 使用Task.Run 沒有卡住程式 , 導致計算結果失準
+
+============================
+
+[ 驗證]
+
+1. processBitmap 改成用 Task  執行  , 不會比較快.
+2. 額外開一個 Task 執行下列 IO , 不會比較快
+                    string destFile = Path.Combine(destPath, imgName + ".jpg");
+                    processedImage.Save(destFile, ImageFormat.Jpeg);
