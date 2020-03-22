@@ -53,15 +53,11 @@ namespace ImageResizer
                     int destionatonWidth = (int)(sourceWidth * scale);
                     int destionatonHeight = (int)(sourceHeight * scale);
 
-                    Bitmap processedImage = await processBitmap((Bitmap)imgPhoto,
+                    Bitmap processedImage = processBitmap((Bitmap)imgPhoto,
                         sourceWidth, sourceHeight,
                         destionatonWidth, destionatonHeight);
-
-                    await Task.Run(() =>
-                    {
-                        string destFile = Path.Combine(destPath, imgName + ".jpg");
-                        processedImage.Save(destFile, ImageFormat.Jpeg);
-                    });
+                    string destFile = Path.Combine(destPath, imgName + ".jpg");
+                    processedImage.Save(destFile, ImageFormat.Jpeg);
                 }));
             }
             Task.WaitAll(tasks.ToArray());
@@ -90,21 +86,19 @@ namespace ImageResizer
         /// <param name="newWidth">新圖片的寬度</param>
         /// <param name="newHeight">新圖片的高度</param>
         /// <returns></returns>
-        Task<Bitmap> processBitmap(Bitmap img, int srcWidth, int srcHeight, int newWidth, int newHeight)
+        Bitmap processBitmap(Bitmap img, int srcWidth, int srcHeight, int newWidth, int newHeight)
         {
-            return Task.Run(() =>
-            {
-                Bitmap resizedbitmap = new Bitmap(newWidth, newHeight);
-                Graphics g = Graphics.FromImage(resizedbitmap);
-                g.InterpolationMode = InterpolationMode.High;
-                g.SmoothingMode = SmoothingMode.HighQuality;
-                g.Clear(Color.Transparent);
-                g.DrawImage(img,
-                    new Rectangle(0, 0, newWidth, newHeight),
-                    new Rectangle(0, 0, srcWidth, srcHeight),
-                    GraphicsUnit.Pixel);
-                return resizedbitmap;
-            });
+
+            Bitmap resizedbitmap = new Bitmap(newWidth, newHeight);
+            Graphics g = Graphics.FromImage(resizedbitmap);
+            g.InterpolationMode = InterpolationMode.High;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.Clear(Color.Transparent);
+            g.DrawImage(img,
+                new Rectangle(0, 0, newWidth, newHeight),
+                new Rectangle(0, 0, srcWidth, srcHeight),
+                GraphicsUnit.Pixel);
+            return resizedbitmap;
         }
     }
 }
